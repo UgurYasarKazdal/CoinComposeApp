@@ -1,2 +1,6 @@
 /.gradle
 .DS_Store
+/.gradle
+/composeApp/build
+/build
+/.gradle/8.9
