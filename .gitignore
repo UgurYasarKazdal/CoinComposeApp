@@ -4,3 +4,6 @@
 /composeApp/build
 /build
 /.gradle/8.9
+/.gradle
+/.kotlin
+/gradle/wrapper
