@@ -9,3 +9,4 @@
 /gradle/wrapper
 .gradle/buildOutputCleanup/buildOutputCleanup.lock
 .idea/misc.xml
+/.gradle
