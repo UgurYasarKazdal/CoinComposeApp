@@ -18,3 +18,4 @@
 .gradle/8.9/fileHashes/fileHashes.bin
 /gradle
 /.gradle
+*.class
