@@ -8,3 +8,7 @@
 /.kotlin
 /gradle/wrapper
 .gradle/buildOutputCleanup/buildOutputCleanup.lock
+.idea/misc.xml
+/.gradle
+/.gradle/buildOutputCleanup
+*.probe
