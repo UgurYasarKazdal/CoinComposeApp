@@ -8,3 +8,14 @@
 /.kotlin
 /gradle/wrapper
 .gradle/buildOutputCleanup/buildOutputCleanup.lock
+.idea/misc.xml
+/.gradle
+/.gradle/buildOutputCleanup
+*.probe
+/.gradle/8.9
+.gradle/8.9/checksums/checksums.lock
+.gradle/8.9/gc.properties
+.gradle/8.9/fileHashes/fileHashes.bin
+/gradle
+/.gradle
+*.class
