@@ -13,7 +13,7 @@ import org.example.project.core.domain.Result
 class CoinsListViewModel(private val getCoinsListUseCase: GetCoinsListUseCase) : ViewModel() {
     private val _state = MutableStateFlow(CoinState())
     val state = _state.onStart {
-
+        getAllCoins()
     }.stateIn(
         viewModelScope,
         SharingStarted.WhileSubscribed(5000),
@@ -44,7 +44,7 @@ class CoinsListViewModel(private val getCoinsListUseCase: GetCoinsListUseCase) :
                     it.copy(
                         coins = emptyList(),
                         error = null //TODO: coinsResponse.error.toUiText()
-                 )
+                    )
                 }
             }
 

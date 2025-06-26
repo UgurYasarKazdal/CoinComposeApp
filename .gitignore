@@ -12,3 +12,9 @@
 /.gradle
 /.gradle/buildOutputCleanup
 *.probe
+/.gradle/8.9
+.gradle/8.9/checksums/checksums.lock
+.gradle/8.9/gc.properties
+.gradle/8.9/fileHashes/fileHashes.bin
+/gradle
+/.gradle
