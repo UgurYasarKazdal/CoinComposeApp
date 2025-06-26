@@ -6,11 +6,16 @@ import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.cache.HttpCache
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
+import io.ktor.client.plugins.logging.DEFAULT
+import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.client.plugins.logging.Logging
 import io.ktor.http.ContentType
+import io.ktor.http.HttpHeaders
 import io.ktor.http.contentType
 import io.ktor.http.headers
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
+import org.koin.core.logger.Logger
 
 object HttpClientFactory {
     fun create(engine: HttpClientEngine): HttpClient {
@@ -21,6 +26,15 @@ object HttpClientFactory {
                         ignoreUnknownKeys = true
                     }
                 )
+            }
+
+            install(Logging) {
+                logger = io.ktor.client.plugins.logging.Logger.DEFAULT
+                level = LogLevel.HEADERS
+                filter { request ->
+                    request.url.host.contains("ktor.io")
+                }
+                sanitizeHeader { header -> header == HttpHeaders.Authorization }
             }
 
             install(HttpTimeout) {
