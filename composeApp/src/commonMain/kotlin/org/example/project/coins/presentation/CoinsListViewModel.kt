@@ -11,6 +11,7 @@ import org.example.project.coins.domain.GetCoinsListUseCase
 import org.example.project.core.domain.Result
 import org.example.project.core.util.formatFiat
 import org.example.project.core.util.formatPercentage
+import org.example.project.core.util.toUiText
 
 class CoinsListViewModel(private val getCoinsListUseCase: GetCoinsListUseCase) : ViewModel() {
     private val _state = MutableStateFlow(CoinState())
@@ -45,7 +46,7 @@ class CoinsListViewModel(private val getCoinsListUseCase: GetCoinsListUseCase) :
                 _state.update {
                     it.copy(
                         coins = emptyList(),
-                        error = null //TODO: coinsResponse.error.toUiText()
+                        error = coinsResponse.error.toUiText()
                     )
                 }
             }
