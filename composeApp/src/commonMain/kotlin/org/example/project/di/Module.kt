@@ -3,6 +3,7 @@ package org.example.project.di
 import io.ktor.client.HttpClient
 import org.example.project.coins.data.remote.impl.CoinsRemoteDataSourceImpl
 import org.example.project.coins.domain.GetCoinDetailsUseCase
+import org.example.project.coins.domain.GetCoinPriceHistoryUseCase
 import org.example.project.coins.domain.GetCoinsListUseCase
 import org.example.project.coins.domain.api.CoinsRemoteDataSource
 import org.example.project.coins.presentation.CoinsListViewModel
@@ -31,9 +32,10 @@ val sharedModule = module {
     single<HttpClient> { HttpClientFactory.create(get()) }
 
     //coins list
-    viewModel { CoinsListViewModel(get()) }
+    viewModel { CoinsListViewModel(get(), get()) }
     singleOf(::GetCoinsListUseCase)
     singleOf(::CoinsRemoteDataSourceImpl).bind(CoinsRemoteDataSource::class)
     singleOf(::GetCoinDetailsUseCase)
+    singleOf(::GetCoinPriceHistoryUseCase)
 }
 
