@@ -9,6 +9,9 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import org.example.project.coins.domain.GetCoinsListUseCase
 import org.example.project.core.domain.Result
+import org.example.project.core.util.formatFiat
+import org.example.project.core.util.formatPercentage
+import org.example.project.core.util.toUiText
 
 class CoinsListViewModel(private val getCoinsListUseCase: GetCoinsListUseCase) : ViewModel() {
     private val _state = MutableStateFlow(CoinState())
@@ -31,8 +34,8 @@ class CoinsListViewModel(private val getCoinsListUseCase: GetCoinsListUseCase) :
                                 name = coinItem.coin.name,
                                 symbol = coinItem.coin.symbol,
                                 iconUrl = coinItem.coin.iconUrl,
-                                formattedPrice = coinItem.price.toString(), //TODO: formatFiat(coinItem.price),
-                                formattedChange = coinItem.change.toString(), //TODO: formatChange(coinItem.change),
+                                formattedPrice = formatFiat(coinItem.price),
+                                formattedChange = formatPercentage(coinItem.change),
                                 isPositive = coinItem.change >= 0
                             )
                         })
@@ -43,7 +46,7 @@ class CoinsListViewModel(private val getCoinsListUseCase: GetCoinsListUseCase) :
                 _state.update {
                     it.copy(
                         coins = emptyList(),
-                        error = null //TODO: coinsResponse.error.toUiText()
+                        error = coinsResponse.error.toUiText()
                     )
                 }
             }
