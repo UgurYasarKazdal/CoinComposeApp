@@ -19,7 +19,7 @@ fun PortfolioCoinEntity.toPortfolioCoinModel(
         performancePercent = ((currentPrice - averagePurchasePrice) / averagePurchasePrice) * 100,
         averagePurchasePrice = averagePurchasePrice,
         ownedAmountInUnit = amountOwned,
-        ownedAmountFiat = amountOwned * currentPrice,
+        ownedAmountInFiat = amountOwned * currentPrice,
     )
 }
 

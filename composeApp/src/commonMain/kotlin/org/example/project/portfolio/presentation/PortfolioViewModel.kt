@@ -92,7 +92,7 @@ class PortfolioViewModel(
             name = coin.name,
             iconUrl = coin.iconUrl,
             amountInUnitText = formatCoinUnit(ownedAmountInUnit, coin.symbol),
-            amountInFiatText = formatFiat(ownedAmountFiat),
+            amountInFiatText = formatFiat(ownedAmountInFiat),
             performancePercentText = formatPercentage(performancePercent),
             isPositive = performancePercent > 0
         )
