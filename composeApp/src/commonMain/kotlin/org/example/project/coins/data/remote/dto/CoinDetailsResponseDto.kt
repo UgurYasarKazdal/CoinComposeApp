@@ -2,6 +2,7 @@ package org.example.project.coins.data.remote.dto
 
 import kotlinx.serialization.Serializable
 
+@Serializable
 data class CoinDetailsResponseDto(
     val data: CoinResponseDto
 )
