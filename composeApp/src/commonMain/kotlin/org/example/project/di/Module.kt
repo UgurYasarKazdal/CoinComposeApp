@@ -14,6 +14,10 @@ import org.example.project.core.network.HttpClientFactory
 import org.example.project.portfolio.data.PortfolioRepositoryImpl
 import org.example.project.portfolio.domain.PortfolioRepository
 import org.example.project.portfolio.presentation.PortfolioViewModel
+import org.example.project.trade.domain.BuyCoinUseCase
+import org.example.project.trade.domain.SellCoinUseCase
+import org.example.project.trade.presentation.buy.BuyViewModel
+import org.example.project.trade.presentation.sell.SellViewModel
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
@@ -50,5 +54,11 @@ val sharedModule = module {
     singleOf(::CoinsRemoteDataSourceImpl).bind(CoinsRemoteDataSource::class)
     singleOf(::GetCoinDetailsUseCase)
     singleOf(::GetCoinPriceHistoryUseCase)
+
+    //trade
+    singleOf(::BuyCoinUseCase)
+    singleOf(::SellCoinUseCase)
+    viewModel { BuyViewModel(get(), get(), get()) }
+    viewModel { SellViewModel(get(), get(), get()) }
 }
 

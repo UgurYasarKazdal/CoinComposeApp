@@ -7,5 +7,5 @@ data class PortfolioCoinModel(
     val performancePercent: Double,
     val averagePurchasePrice: Double,
     val ownedAmountInUnit: Double,
-    val ownedAmountFiat: Double,
-)
+    val ownedAmountInFiat: Double
+    )
