@@ -1,4 +1,4 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -19,7 +19,7 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-    
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -30,7 +30,7 @@ kotlin {
             isStatic = true
         }
     }
-    
+
     sourceSets {
 
         androidMain.dependencies {
@@ -72,7 +72,13 @@ kotlin {
             implementation(libs.ktor.ios)
         }
         commonTest.dependencies {
-            implementation(libs.kotlin.test)
+            implementation(libs.kotlinx.coroutines.test)
+                    implementation(libs.kotlin.test)
+            implementation(libs.test.turbine)
+            implementation(libs.test.assertk)
+
+            @OptIn(ExperimentalComposeLibrary::class)
+            implementation(compose.uiTest)
         }
     }
 }
