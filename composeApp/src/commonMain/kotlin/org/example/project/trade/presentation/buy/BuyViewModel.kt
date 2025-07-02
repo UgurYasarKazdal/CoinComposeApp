@@ -1,18 +1,18 @@
 package org.example.project.trade.presentation.buy
 
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-
-
 import org.example.project.coins.domain.GetCoinDetailsUseCase
 import org.example.project.core.domain.Result
 import org.example.project.core.util.formatFiat
@@ -27,9 +27,9 @@ class BuyViewModel(
     private val getCoinDetailsUseCase: GetCoinDetailsUseCase,
     private val portfolioRepository: PortfolioRepository,
     private val buyCoinUseCase: BuyCoinUseCase,
+    private val coinId: String,
 ) : ViewModel() {
 
-    private val tempCoinId = "1" // todo: will be removed later and replaced by parameter
     private val _amount = MutableStateFlow("")
     private val _state = MutableStateFlow(TradeState())
     val state = combine(
@@ -48,8 +48,11 @@ class BuyViewModel(
         initialValue = TradeState(isLoading = true)
     )
 
+    private val _events = Channel<BuyEvents>(capacity = Channel.BUFFERED)
+    val events = _events.receiveAsFlow()
+
     private suspend fun getCoinDetails(balance: Double) {
-        when (val coinResponse = getCoinDetailsUseCase.execute(tempCoinId)) {
+        when (val coinResponse = getCoinDetailsUseCase.execute(coinId)) {
             is Result.Success -> {
                 _state.update {
                     it.copy(
@@ -59,8 +62,7 @@ class BuyViewModel(
                             symbol = coinResponse.data.coin.symbol,
                             iconUrl = coinResponse.data.coin.iconUrl,
                             price = coinResponse.data.price,
-                        ),
-                        availableAmount = "Available: ${formatFiat(balance)}"
+                        ), availableAmount = "Available: ${formatFiat(balance)}"
                     )
                 }
             }
@@ -68,8 +70,7 @@ class BuyViewModel(
             is Result.Error -> {
                 _state.update {
                     it.copy(
-                        isLoading = false,
-                        error = coinResponse.error.toUiText()
+                        isLoading = false, error = coinResponse.error.toUiText()
                     )
                 }
             }
@@ -89,10 +90,11 @@ class BuyViewModel(
                 price = tradeCoin.price,
             )
 
-            when(buyCoinResponse) {
+            when (buyCoinResponse) {
                 is Result.Success -> {
-                    // TODO: Navigate to next screen with event
+                    _events.send(BuyEvents.BuySuccess)
                 }
+
                 is Result.Error -> {
                     _state.update {
                         it.copy(
@@ -105,4 +107,8 @@ class BuyViewModel(
         }
 
     }
+}
+
+sealed interface BuyEvents {
+    data object BuySuccess : BuyEvents
 }
