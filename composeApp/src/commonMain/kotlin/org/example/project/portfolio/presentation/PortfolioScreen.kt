@@ -170,7 +170,7 @@ private fun PortfolioCoinsList(
                     text = "💰 Owned Coins: ",
                     color = MaterialTheme.colorScheme.onBackground,
                     fontSize = MaterialTheme.typography.titleLarge.fontSize,
-                    modifier = Modifier.weight(1f).padding(16.dp)
+                    modifier = Modifier.padding(16.dp)
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 LazyColumn(
