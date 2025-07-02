@@ -94,12 +94,12 @@ class PortfolioRepositoryImpl(
         }
     }
 
-    override suspend fun removePortfolioCoin(coinId: String) {
+    override suspend fun removeCoinFromPortfolio(coinId: String) {
         portfolioDao.deletePortfolioItem(coinId)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    override fun calculatePortfolioValue(): Flow<Result<Double, DataError.Remote>> {
+    override fun calculateTotalPortfolioValue(): Flow<Result<Double, DataError.Remote>> {
         return portfolioDao.getAllOwnedCoins().flatMapLatest { portfolioCoinEntities ->
             if (portfolioCoinEntities.isEmpty()) {
                 flow {
@@ -127,7 +127,7 @@ class PortfolioRepositoryImpl(
 
     override fun totalBalanceFlow(): Flow<Result<Double, DataError.Remote>> {
         return combine(
-            cashBalanceFlow(), calculatePortfolioValue()
+            cashBalanceFlow(), calculateTotalPortfolioValue()
         ) { cashBalance, portfolioResult ->
             when (portfolioResult) {
                 is Result.Success -> {

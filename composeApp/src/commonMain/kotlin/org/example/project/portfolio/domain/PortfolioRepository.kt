@@ -14,9 +14,9 @@ interface PortfolioRepository {
 
     suspend fun savePortfolioCoin(portfolioCoinModel: PortfolioCoinModel): EmptyResult<DataError.Local>
 
-    suspend fun removePortfolioCoin(coinId: String)
+    suspend fun removeCoinFromPortfolio(coinId: String)
 
-    fun calculatePortfolioValue(): Flow<Result<Double, DataError.Remote>>
+    fun calculateTotalPortfolioValue(): Flow<Result<Double, DataError.Remote>>
     fun totalBalanceFlow(): Flow<Result<Double, DataError.Remote>>
     fun cashBalanceFlow(): Flow<Double>
     suspend fun updateCashBalance(cashBalance: Double)
