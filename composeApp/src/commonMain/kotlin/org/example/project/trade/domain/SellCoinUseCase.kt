@@ -30,7 +30,7 @@ class SellCoinUseCase(
                 val remainingAmountFiat = existingCoin.ownedAmountInFiat - amountInFiat
                 val remainingAmountUnit = existingCoin.ownedAmountInUnit - sellAmountInUnit
                 if (remainingAmountFiat < sellAllThreshold) {
-                    portfolioRepository.removePortfolioCoin(coin.id)
+                    portfolioRepository.removeCoinFromPortfolio(coin.id)
                 } else {
                     portfolioRepository.savePortfolioCoin(
                         existingCoin.copy(

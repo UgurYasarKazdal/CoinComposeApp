@@ -2,9 +2,12 @@ package org.example.project.portfolio.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import org.example.project.core.domain.DataError
@@ -17,7 +20,8 @@ import org.example.project.portfolio.domain.PortfolioCoinModel
 import org.example.project.portfolio.domain.PortfolioRepository
 
 class PortfolioViewModel(
-    private val portfolioRepository: PortfolioRepository
+    private val portfolioRepository: PortfolioRepository,
+    private val coroutineDispatcher: CoroutineDispatcher = Dispatchers.Default
 ) : ViewModel() {
     private val _state = MutableStateFlow(PortfolioState(isLoading = true))
     val state: StateFlow<PortfolioState> = combine(
@@ -46,7 +50,7 @@ class PortfolioViewModel(
     }.onStart {
         portfolioRepository.initializeBalance()
 
-    }.stateIn(
+    }.flowOn(coroutineDispatcher).stateIn(
         scope = viewModelScope,
         started = kotlinx.coroutines.flow.SharingStarted.WhileSubscribed(),
         initialValue = PortfolioState(isLoading = true)
